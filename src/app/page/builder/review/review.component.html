@@ -1,0 +1,23 @@
+<ng-container
+  *ngFor="let question of questionsFormArrayControlsz; let i = index"
+>
+  <h2>{{ question.controls["question"].value }}</h2>
+
+  <ng-container
+    *ngIf="
+      question.controls['questionType'].value ===
+        questionsTypeEnum.CHECK_BOX_LIST;
+      else parathTemplate
+    "
+  >
+    <ng-container *ngFor="let anws of question.controls['answers'].controls">
+      <li *ngIf="anws.controls.checked.value">
+        {{ anws.controls.answerx.value }}
+      </li>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #parathTemplate>
+    {{ question.controls["awnserText"].value }}
+  </ng-template>
+</ng-container>

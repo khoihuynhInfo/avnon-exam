@@ -1,0 +1,59 @@
+<h1 mat-dialog-title>Add new question</h1>
+<div mat-dialog-content style="display: flex; flex-direction: column">
+  <mat-label>Question types</mat-label>
+  <mat-form-field>
+    <mat-select [formControl]="questionTypeControl">
+      <mat-option [value]="questionsTypeEnum.CHECK_BOX_LIST"
+        >check box list</mat-option
+      >
+      <mat-option [value]="questionsTypeEnum.PARAGRAPH">Paragraph</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- <ng-container *ngIf="false; else praragraph"></ng-container> -->
+  <form [formGroup]="addQuestionFormGroup">
+    <mat-form-field class="example-full-width">
+      <input
+        matInput
+        formControlName="question"
+        placeholder="Type question here"
+      />
+    </mat-form-field>
+
+    <ng-container
+      *ngIf="questionTypeControl.value === questionsTypeEnum.CHECK_BOX_LIST"
+    >
+      <div
+        formArrayName="answers"
+        *ngFor="let answer of addQuestionFormGroupControls; let i = index"
+      >
+        <div [formGroupName]="i">
+          <mat-form-field class="example-full-width">
+            <input
+              matInput
+              formControlName="answerx"
+              placeholder="Add Answer Option"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+      <button
+        type="button"
+        mat-raised-button
+        color="accent"
+        (click)="addAnotherAnswer()"
+      >
+        Add another answer
+      </button>
+    </ng-container>
+  </form>
+
+  <button
+    style="margin-top: 10px"
+    mat-raised-button
+    color="primary"
+    (click)="submitQuestion()"
+  >
+    Submit
+  </button>
+</div>

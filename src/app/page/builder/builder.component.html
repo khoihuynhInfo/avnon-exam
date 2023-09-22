@@ -1,0 +1,65 @@
+<form [formGroup]="formGroup" style="margin: 1rem">
+  <mat-card class="example-card">
+    <mat-card-content>
+      <div formArrayName="questionsFormArray">
+        <ng-container
+          *ngFor="let question of questionsFormArrayControls; let i = index"
+        >
+          <div [formGroupName]="i">
+            <h3 style="font-weight: bold">
+              {{ question.controls["question"].value }}
+            </h3>
+            <ng-container
+              *ngIf="
+                question.controls['questionType'].value ===
+                  questionsTypeEnum.CHECK_BOX_LIST;
+                else parathTemplate
+              "
+            >
+              <ng-container formArrayName="answers">
+                <ng-container
+                  *ngFor="
+                    let checkbox of question.controls['answers'].controls;
+                    let i = index
+                  "
+                >
+                  <ng-container [formGroupName]="i">
+                    <mat-checkbox
+                      formControlName="checked"
+                      class="example-margin"
+                    >
+                      {{ checkbox.controls.answerx.value }}
+                    </mat-checkbox>
+                  </ng-container>
+
+                  <br />
+                </ng-container>
+              </ng-container>
+            </ng-container>
+
+            <ng-template #parathTemplate>
+              <textarea
+                formControlName="awnserText"
+                id="w3review"
+                name="w3review"
+                rows="4"
+                cols="50"
+              ></textarea>
+            </ng-template>
+          </div>
+        </ng-container>
+        <button mat-stroked-button color="accent" (click)="addNewQuestion()">
+          Add Question
+        </button>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions *ngIf="!!questionsFormArrayControls?.length">
+      <hr />
+
+      <button mat-raised-button color="primary" (click)="reviewAnswers()">
+        Review my answers
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>
